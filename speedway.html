@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Speedway Sign</title>
+        <style>
+            @font-face {
+                font-family: 'LCDMB';
+                src: url('LCDMB___.TTF') format('truetype');
+            }
+            * {
+                color: white;
+                font-family: 'LCDMB', sans-serif;
+            }
+            span {
+                position:fixed;
+                width: 128px;
+                height: 128px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: 38px;
+                overflow: hidden;
+            }
+            div {
+                position:fixed;
+                border: 1px solid black;
+                background-image: url('ads/ad_1.png');
+                background-size: cover
+            }
+        </style>
+    </head>
+    <body style="background-color: #000000;">
+        <span id="slot_1" style="left:0px;top:0px;">0001</span>
+        <span id="slot_2" style="left:128px;top:0px;">0002</span>
+        <span id="slot_3" style="left:256px;top:0px;">0003</span>
+        <span id="slot_4" style="left:384px;top:0px;">0004</span>
+        <span id="slot_5" style="left:0px;top:128px">0005</span>
+        <span id="slot_6" style="left:128px;top:128px">0006</span>
+        <span id="slot_7" style="left:256px;top:128px">0007</span>
+        <span id="slot_8" style="left:384px;top:128px">0008</span>
+        <span id="slot_9" style="left:0px;top:256px">0009</span>
+        <span id="slot_l" style="left:128px;top:256px">LAPS</span>
+        <div  id="slot_ad1" style="left:256px;top:256px;width:256px;height:128px;"></div>
+        <div  id="slot_ad2" style="left:0px;top:384px;width:256px;height:128px;"></div>
+        <div  id="slot_ad3" style="left:256px;top:384px;width:256px;height:128px;"></div>
+        <script>
+            window.onload = () => {
+                let slots = [1,2,3,4,5,6,7,8,9,'l'];
+                async function updateSlots(title, slotNumbers, keepTitle) {
+                    slots.forEach(slot => {
+                        let slotElement = document.getElementById(`slot_${slot}`);
+                        if (slotElement && (slot !== 'l' || !keepTitle)) {
+                            slotElement.innerHTML = ""; // Empty them all
+                        }
+                    });
+                    await new Promise(resolve => setTimeout(resolve, 200)); // Wait for 1 second
+                    // set the title
+                    let titleElement = document.getElementById('slot_l');
+                    if (titleElement) {
+                        titleElement.innerHTML = title; // Set the title
+                    }
+                    slotNumbers = slotNumbers.reverse(); // Reverse the order of slots
+                    for (let slot of slots) {
+                        await new Promise(resolve => setTimeout(resolve, 100)); 
+                        let slotElement = document.getElementById(`slot_${slot}`);
+                        if (slotElement && slot !== 'l') {
+                            slotElement.innerHTML = slotNumbers.pop() || "";;
+                        }
+                    }
+                }
+
+                let fadeDuration = 1000; // Duration of the fade in milliseconds
+                function crossFadeAd(adName, url) {
+                    let adElement = document.getElementById(adName);
+                    if (adElement) {
+                        // Fade out
+                        adElement.style.transition = `opacity ${fadeDuration / 1000}s`;
+                        adElement.style.opacity = 0;
+
+                        setTimeout(() => {
+                            // Change the image after fade out
+                            adElement.style.backgroundImage = `url('${url}')`;
+
+                            // Fade in
+                            adElement.style.opacity = 1;
+                        }, fadeDuration);
+                    }
+                }
+                crossFadeAd("slot_ad1", "ads/ad_2.png");
+                crossFadeAd("slot_ad2", "ads/ad_3.png");
+                crossFadeAd("slot_ad3", "ads/ad_4.png");
+
+                leaderboardUpdateAsNames = (async (title, players) => {
+                    let playerList = [];
+                    for (let player of players) {
+                        let formattedName = player || "PLYR";
+                        if (formattedName.length < 1) formattedName = "PLYR";
+                        let delimiters = ['_', '-', '.', ' '];
+                        let nameParts = formattedName.split(/[\_\-\.\s]/);
+                        let strippedPart = nameParts[0].toUpperCase().replace(/[^A-Z0-9]/g, '');
+                        if (strippedPart.length <= 5 && nameParts.length > 1) {
+                            formattedName = strippedPart;
+                        } else {
+                            formattedName = formattedName.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                        }
+                        if (formattedName.length < 1) formattedName = "PLYR";
+                        if (formattedName.length > 5) formattedName = formattedName.replace(/[A]/, '');
+                        if (formattedName.length > 5) formattedName = formattedName.replace(/[E]/, '');
+                        if (formattedName.length > 5) formattedName = formattedName.replace(/[I]/, '');
+                        if (formattedName.length > 5) formattedName = formattedName.replace(/[O]/, '');
+                        if (formattedName.length > 5) formattedName = formattedName.replace(/[U]/, '');
+                        if (formattedName.length > 5) formattedName = formattedName.replace(/[0-9]/, '');
+                        formattedName = formattedName.substring(0, 5);
+                        if (player[3] == 1) {
+                            formattedName = `<span>${formattedName}</span>`; // Green for new times
+                        }
+                        playerList.push(formattedName);
+                    }
+
+                    updateSlots(title, playerList, false);
+                });
+                leaderboardUpdateAsTime = (async (title, players) => {
+                    let playerList = [];
+                    for (let player of players) {
+                        let playerTimeInSeconds = Math.ceil(parseInt(player) / 1000);
+                        let minutes = Math.floor(playerTimeInSeconds / 60);
+                        let seconds = (playerTimeInSeconds % 60);
+                        // let milliseconds = Math.floor((playerTimeInMilliseconds % 1000) / 10);
+                        let formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                        if (player[3] == 1) {
+                            formattedTime = `<span>${formattedTime}</span>`; // Green for new times
+                        }
+                        playerList.push(formattedTime);
+                    }
+
+                    updateSlots(title, playerList, false);
+                });
+                leaderboardUpdateAsText = (async (title, players) => {
+                    let playerList = [];
+                    for (let player of players) {
+                        playerList.push(player);
+                    }
+                    updateSlots(title, playerList, false);
+                });
+                leaderboardUpdateAsText("", ["", "", "", "", "", "", "", "", ""]);
+
+                window.addEventListener('message', (event) => {
+                    if (event.data && event.data.type === 'playerNames') {
+                        leaderboardUpdateAsNames(event.data.title, event.data.players);
+                    } else if (event.data && event.data.type === 'playerTimes') {
+                        leaderboardUpdateAsTime(event.data.title, event.data.players);
+                    } else if (event.data && event.data.type === 'playerText') {
+                        leaderboardUpdateAsText(event.data.title, event.data.players);
+                    } else if (event.data && event.data.type === 'ads') {
+                        crossFadeAd("slot_ad1", event.data.url[0]);
+                        crossFadeAd("slot_ad2", event.data.url[1]);
+                        crossFadeAd("slot_ad3", event.data.url[2]);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<CMapData>
+  <name>amir_speedway_sign</name>
+  <parent />
+  <flags value="0" />
+  <contentFlags value="65" />
+  <streamingExtentsMin x="-4069.0178" y="7227.412" z="-1112.31579" />
+  <streamingExtentsMax x="-1669.0178" y="9627.412" z="1287.6842" />
+  <entitiesExtentsMin x="-4069.0178" y="7227.412" z="-1112.31579" />
+  <entitiesExtentsMax x="-1669.0178" y="9627.412" z="1287.6842" />
+  <entities>
+    <Item type="CEntityDef">
+      <archetypeName>amir_speedway_led</archetypeName>
+      <flags value="32" />
+      <guid value="0" />
+      <position x="-2869.0178" y="8427.412" z="87.68421" />
+      <rotation x="-0.0" y="-0.0" z="-0.0" w="1.0" />
+      <scaleXY value="1" />
+      <scaleZ value="1" />
+      <parentIndex value="-1" />
+      <lodDist value="1000.0" />
+      <childLodDist value="0" />
+      <lodLevel>LODTYPES_DEPTH_ORPHANHD</lodLevel>
+      <numChildren value="0" />
+      <priorityLevel>PRI_REQUIRED</priorityLevel>
+      <ambientOcclusionMultiplier value="255" />
+      <artificialAmbientOcclusion value="255" />
+      <tintValue value="0" />
+    </Item>
+  </entities>
+  <containerLods itemType="rage__fwContainerLodDef" />
+  <boxOccluders itemType="BoxOccluder" />
+  <occludeModels itemType="OccludeModel" />
+  <physicsDictionaries />
+  <timeCycleModifiers itemType="CTimeCycleModifier" />
+  <carGenerators itemType="CCarGen" />
+  <block>
+    <version value="0" />
+    <flags value="0" />
+    <name />
+    <exportedBy>Sollumz</exportedBy>
+    <owner />
+    <time />
+  </block>
+</CMapData>

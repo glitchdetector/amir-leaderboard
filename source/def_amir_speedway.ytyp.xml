@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<CMapTypes>
+  <archetypes>
+    <Item type="CBaseArchetypeDef">
+      <lodDist value="1000.0" />
+      <flags value="32" />
+      <specialAttribute value="0" />
+      <bbMin x="-10.861438" y="-6.8960185" z="-41.71477" />
+      <bbMax x="10.728479" y="11.631297" z="-1.0332532" />
+      <bsCentre x="-0.066479206" y="2.3676393" z="-21.374012" />
+      <bsRadius value="24.82122" />
+      <hdTextureDist value="40" />
+      <name>amir_speedway_led</name>
+      <textureDictionary>amir_speedway_led</textureDictionary>
+      <assetType>ASSET_TYPE_DRAWABLE</assetType>
+      <assetName>amir_speedway_led</assetName>
+    </Item>
+  </archetypes>
+  <name>def_amir_speedway</name>
+</CMapTypes>
